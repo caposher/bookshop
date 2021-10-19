@@ -14,10 +14,14 @@ function renderTable() {
       <tr>
         <td>${book.id}</td>
         <td>${book.bookName}</td>
-        <td>$${book.price}</td>
-        <td><button class="read-btn" onclick="onReadBook('${book.id}')">Read</button></td>
-        <td><button class="update-btn" onclick="onUpdateBook('${book.id}')">Update</button></td>
-        <td><button class="delete-btn" onclick="onRemoveBook('${book.id}')">Delete</button></td>
+        <td>${formatCurrency(book.price)}</td>
+        <td><button data-trans="book-read" class="read-btn" onclick="onReadBook('${book.id}')">Read</button></td>
+        <td><button data-trans="book-update" class="update-btn" onclick="onUpdateBook('${
+          book.id
+        }')">Update</button></td>
+        <td><button data-trans="book-delete" class="delete-btn" onclick="onRemoveBook('${
+          book.id
+        }')">Delete</button></td>
       </tr>`;
     })
     .join('');
@@ -25,6 +29,7 @@ function renderTable() {
   strHTML += ``;
 
   document.querySelector('.book-list').innerHTML = strHTML;
+  doTrans();
 }
 
 function renderPageBtns() {
@@ -44,7 +49,7 @@ function renderBookDetails(book) {
   var elRate = document.querySelector('.rate-value');
 
   elImg.src = book.imgUrl;
-  elText.innerText = makeLorem();
+  elText.innerText = makeLorem(getCurrLanguage());
   elDetails.classList.remove('hidden');
   elRate.innerText = book.rate;
 }
@@ -67,7 +72,7 @@ function onAddBook() {
 }
 
 function onUpdateBook(bookId) {
-  var price = prompt('Please enter price (DONT ADD $):');
+  var price = prompt(getPromptMsg());
   if (price) {
     updateBook(bookId, price);
     renderTable();
@@ -101,4 +106,10 @@ function onChangePage(diff, isPage) {
 
 function imageNotExist(elImg) {
   elImg.src = '../img/noImage.png';
+}
+
+function onChangeLang(elLang) {
+  var lang = elLang.value;
+  if (lang) setLanguage(lang);
+  doTrans();
 }

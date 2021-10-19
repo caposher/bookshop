@@ -6,6 +6,13 @@ body {
   text-align: center;
 }
 
+.rtl {
+  direction: rtl;
+}
+.language {
+  text-align: start;
+  margin-inline-start: 10px;
+}
 .main-container {
   position: relative;
   padding: 10px 0px;
